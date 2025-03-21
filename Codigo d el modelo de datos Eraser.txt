@@ -1,0 +1,212 @@
+Codigo d el modelo de datos Eraser
+
+// title
+title Ticketlite
+
+// define tables
+usuario [icon: user, color: lightblue] {
+  id string pk
+  uuid string
+  typedocument string
+  name string
+  lastname string
+  phone string
+  email string
+  password string
+  profileInfo string
+  create_at timestamp
+  updated_at timestamp
+  delete_at timestamp
+}
+
+evento [icon: calendar, color: green] {
+  id string pk
+  name string
+  date date
+  entryOptions string
+  location string
+  category string
+  description string
+  organizer_id string fk
+  reminders string
+}
+
+calendario [icon: calendar, color: green] {
+  id string pk
+  name string
+  evento_id string fk
+  date date
+  entryOptions string
+  location string
+  category string
+  description string
+  reminders string
+}
+
+favoritos [icon: star, color: pink] {
+  id string pk
+  usuario_id string fk
+  evento_id string fk
+}
+
+tickets [icon: ticket, color: orange] {
+  id string pk
+  usuario_id string fk
+  evento_id string fk
+  ticketType string
+  entryOptions string
+  price decimal
+  purchaseDate date
+  status string
+}
+
+pagos [icon: credit-card, color: purple] {
+  id string pk
+  ticket_id string fk
+  evento_id string fk
+  method string
+  amount decimal
+  paymentDate date
+  status string
+}
+
+compartir [icon: share, color: yellow] {
+  id string pk
+  usuario_id string fk
+  evento_id string fk
+  status string
+}
+
+comentar [icon: message-circle, color: red] {
+  id string pk
+  usuario_id string fk
+  evento_id string fk
+  commentText string
+  rating integer
+  commentDate date
+}
+
+organizers [icon: users, color: blue] {
+  id string pk
+  name string
+  contactInfo string
+  usuario_id string fk
+  evento_id string fk
+  position integer
+  status string
+  descriptionsessions string
+}
+
+personalizacion [icon: aws-personalize, color: blue] {
+  id string pk
+  username string
+  personalize string
+  recommended string
+  usuario_id string fk 
+  evento_id string fk 
+  theme string
+  font_size string
+  notifications boolean
+  recomendaciones_eventos boolean
+  seguir_intereses boolean
+}
+
+patrocinios [icon: handshake, color: lightblue]{
+  id string pk
+  organizador_id string (FK)
+  acuerdos boolean
+  info_sponsor text
+  interaccion_sponsor boolean
+  reporte_metricas boolean
+}
+
+comunicacion [icon: message-circle, color: lightblue]{
+  id string pk
+  organizador_id string (FK)
+  recordatorios_eventos boolean
+  cambios_eventos boolean
+  mensajes_asistentes boolean
+  comunicacion_bi boolean
+}
+
+analisis_datos [icon: bar-chart-2, color: red]{
+  id string pk
+  asistencia_eventos int
+  participacion_eventos int
+  tendencias text
+  informes text
+  mejora_experiencia boolean
+}
+
+seguridad_privacidad [icon: lock, color: pink]{
+  id string pk
+  privacidad boolean
+  consentimiento boolean
+}
+
+analisis_sistema [icon: activity, color: pink]{
+  id string pk
+  informe_analisis text
+  diagrama_requerimientos text
+  backlog text
+}
+
+diseno_software [icon: layout, color: pink]{
+  id string pk
+  diagrama_flujo text
+  diagrama_ER text
+  wireframes text
+  plantilla text
+}
+
+soporte [icon: headset, color: green]{
+  id string pk
+  chatbot boolean
+  encuestas_satisfaccion boolean
+}
+
+organizers.evento_id > evento.id
+calendario.evento_id > evento.id
+favoritos.usuario_id > usuario.id
+tickets.usuario_id > usuario.id
+tickets.evento_id > evento.id
+pagos.tickets_id > tickets.id
+compartir.usuario_id > usuario.id
+compartir.evento_id > usuario.id
+comentar.usuario_id > usuario.id
+comentar.evento_id > evento.id
+organizers.usuario_id < usuario.id
+personalizacion.usuario_id > usuario.id
+personalizacion.evento_id > evento.id
+personalizacion . usuario_id > usuario . id
+personalizacion . evento_id > evento . id
+
+
+patrocinios . organizador_id > usuario . id
+patrocinios . evento_id > evento . id
+patrocinios . expositor_id > expositor . id
+
+comunicacion . usuario_id > usuario . id
+comunicacion . evento_id > evento . id
+
+
+datos_metricas . evento_id > evento . id
+datos_metricas . usuario_id > usuario . id
+
+
+seguridad . usuario_id > usuario . id
+seguridad . evento_id > evento . id
+
+
+analisis_sistema . usuario_id > usuario . id
+analisis_sistema . evento_id > evento . id
+
+
+diseno_software . usuario_id > usuario . id
+
+
+soporte . usuario_id > usuario . id
+soporte . categoria_id > categoria . id
+seguridad_privacidad . usuario_id > usuario . id
+analisis_datos. usuario_id > usuario . id
+analisis_datos . evento_id > evento . id
